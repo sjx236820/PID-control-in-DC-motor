@@ -1,0 +1,43 @@
+/**************************PID******************************/
+typedef struct 
+{
+	float Target_value;  
+	float Current_value;  
+	float PWM;  
+	float Err;  
+	float Last_Err;
+	float Kp,Ki,Kd; 
+	float output;  
+	float integral; 
+}PID_TypeDef;
+
+PID_TypeDef PID;
+
+void PID_Init();
+float PID_operation(float value);
+
+void PID_Init()
+{
+	PID.Target_value = 0.0;
+	PID.Current_value = 0.0;
+        PID.PWM = 0.0;
+	PID.Err = 0.0;
+	PID.Last_Err = 0.0;
+	PID.output = 0.0;
+	PID.integral = 0.0;
+	PID.Kp = 800.0;  
+	PID.Ki = 0.0;  
+	PID.Kd = 0.0;
+}
+
+float PID_operation(float value)
+{
+	PID.Target_value = value; 
+	PID.Err = PID.Target_value - PID.Current_value; 
+	PID.integral += PID.Err; 
+	PID.output = PID.Kp*PID.Err + PID.Ki*PID.integral + PID.Kd* (PID.Err-PID.Last_Err); 
+	PID.Last_Err = PID.Err;  
+	PID.PWM = PID.output; 
+        PID.Current_value=PID.Current_value+PID.PWM;
+	return PID.PWM; 
+}
