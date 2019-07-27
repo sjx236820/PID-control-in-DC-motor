@@ -1,0 +1,70 @@
+#include<Stepper.h>
+#include <stdio.h>
+#define KEY 2     
+               
+int stepin = 0;
+int count = 1;
+
+int motorPin7 = 7;
+int motorPin6 = 6;
+int motorPin5 = 5;
+int motorPin4 = 4;
+
+float c,d,f;
+int b,i,e,g;
+const int TrigPin = 12;
+const int EchoPin = 13;
+//const int U = 6;
+float distance=0.00;
+
+//const int P=A0;
+
+int sensorValue=0;
+int outputValue=0;
+
+void setup() 
+{
+  pinMode(motorPin7, OUTPUT);
+  pinMode(motorPin6, OUTPUT);
+  pinMode(motorPin5, OUTPUT);
+  pinMode(motorPin4, OUTPUT);
+  pinMode(TrigPin, OUTPUT);
+  pinMode(EchoPin, INPUT);
+  //Serial.println("Ultrasonic sensor:");
+  Serial.begin(9600);
+}
+void loop()
+{
+	//freopen("E:\\PID_output.txt","w",stdout); 
+	PID_Init();
+	for(int i=1; i<=100; i++)
+        {
+                juli();
+                Serial.print("sensor:");
+                Serial.print(distance);
+                Serial.println();
+                PID.Current_value = distance;
+                d = 10.0;
+                PID.Target_value = 10.0;
+
+                Serial.print("PIDzhi:");
+		Serial.print(PID_operation(15.0));
+                c=PID.PWM;
+                Serial.print("     ");
+                Serial.print("piancha:");
+                Serial.print(PID.Target_value - PID.Current_value);
+                Serial.println();
+                if(c>=0)
+                {
+                  c = 2000*(PID.Target_value - PID.Current_value)/PID.Target_value;
+                }
+                else if(c<0)
+                {
+                  c = 10000*(PID.Target_value - PID.Current_value)/PID.Target_value;
+                }
+                Serial.print("c:");
+                Serial.print(c);
+                Serial.println();
+                PWM(c);
+	}
+}
