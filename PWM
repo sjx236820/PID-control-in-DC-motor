@@ -1,0 +1,79 @@
+void PWM(float c)
+{
+  if(c>=0)
+  {
+      if(c>=1024)//zhengzhuan
+      {
+        digitalWrite(motorPin5, HIGH);
+        digitalWrite(motorPin4, HIGH);
+        digitalWrite(motorPin7, LOW);
+        digitalWrite(motorPin6, LOW);
+        sensorValue = 1023;
+      }
+      if(c<1024&&c>=500)
+      {
+        digitalWrite(motorPin5, HIGH);
+        digitalWrite(motorPin4, HIGH);
+        digitalWrite(motorPin7, LOW);
+        digitalWrite(motorPin6, LOW);
+        sensorValue = c;
+      }
+      if(c<500&&c>=0)
+      {
+        digitalWrite(motorPin5, HIGH);
+        digitalWrite(motorPin4, HIGH);
+        digitalWrite(motorPin7, LOW);
+        digitalWrite(motorPin6, LOW);
+        sensorValue = 500;
+      }
+      outputValue = map(sensorValue,0,1023,0,255);
+      analogWrite(4,outputValue);
+      Serial.print("outputValue:");
+      Serial.print(outputValue);
+      Serial.println();
+      //delay(100);
+  }
+/////////////////////////////////////////////////////////////////////////////////////  
+/*  if(c=0)//tingzhi
+  {
+    digitalWrite(motorPin5, LOW);
+    digitalWrite(motorPin4, LOW);
+    digitalWrite(motorPin7, LOW);
+    digitalWrite(motorPin6, LOW);
+    sensorValue = 0;
+  }*/
+////////////////////////////////////////////////////////////////////////////////////  
+  else
+  {
+      if(c<=-1024)//fanzhuan
+      {
+        digitalWrite(motorPin7, HIGH);
+        digitalWrite(motorPin6, HIGH);
+        digitalWrite(motorPin5, LOW);
+        digitalWrite(motorPin4, LOW);
+        sensorValue = 1023;
+      }
+      if(c>-1024&&c<=-500)
+      {
+        digitalWrite(motorPin7, HIGH);
+        digitalWrite(motorPin6, HIGH);
+        digitalWrite(motorPin5, LOW);
+        digitalWrite(motorPin4, LOW);
+        sensorValue = -c;
+      }
+      if(c>-500&&c<0)
+      {
+        digitalWrite(motorPin7, HIGH);
+        digitalWrite(motorPin6, HIGH);
+        digitalWrite(motorPin5, LOW);
+        digitalWrite(motorPin4, LOW);
+        sensorValue = 500;
+      }
+      outputValue = map(sensorValue,0,1023,0,255);
+      analogWrite(6,outputValue);
+      Serial.print("outputValue:");
+      Serial.print(outputValue);
+      Serial.println();
+      //delay(100);
+  }
+}
